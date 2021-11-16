@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sorteio_amigo_secreto_whatsapp/components/group_box.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/screens/create_group.dart';
+import 'components/group_box.dart';
 
 void main() => runApp(const MyApp());
 
@@ -30,13 +31,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return CupertinoPageScaffold(
       child: CustomScrollView(
         slivers: [
-          const CupertinoSliverNavigationBar(
-            trailing: Text(
+          CupertinoSliverNavigationBar(
+            leading: Text(
               'Editar',
               style: TextStyle(
                 color: CupertinoColors.activeBlue,
               ),
             ),
+            trailing: GestureDetector(
+                onTap: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => CreateGroup(),
+                      ),
+                    ),
+                child: Icon(CupertinoIcons.add)),
             largeTitle: Text('Amigo Secreto'),
           ),
           const SliverToBoxAdapter(

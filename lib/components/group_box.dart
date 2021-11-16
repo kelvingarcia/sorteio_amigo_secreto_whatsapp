@@ -13,25 +13,35 @@ class _BoxGroupState extends State<BoxGroup> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.1,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(CupertinoIcons.group),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: SizeUtils.fromWidth(context, 0.02),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: CupertinoColors.black,
+              width: 1.0,
+            ),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Icon(CupertinoIcons.group),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: SizeUtils.fromWidth(context, 0.02),
+                  ),
+                  child: const Text('Nome do grupo'),
                 ),
-                child: const Text('Nome do grupo'),
-              ),
-            ],
-          ),
-          Row(
-            children: const [Text('15'), Icon(CupertinoIcons.right_chevron)],
-          ),
-        ],
+              ],
+            ),
+            Row(
+              children: const [Text('15'), Icon(CupertinoIcons.right_chevron)],
+            ),
+          ],
+        ),
       ),
     );
   }
