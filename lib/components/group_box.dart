@@ -14,7 +14,7 @@ class _BoxGroupState extends State<BoxGroup> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.1,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
               color: CupertinoColors.black,

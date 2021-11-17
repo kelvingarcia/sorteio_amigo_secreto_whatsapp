@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sorteio_amigo_secreto_whatsapp">
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
    <application
         android:label="sorteio_amigo_secreto_whatsapp"
         android:icon="@mipmap/ic_launcher">

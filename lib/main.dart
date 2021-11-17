@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: CustomScrollView(
         slivers: [
           CupertinoSliverNavigationBar(
-            leading: Text(
+            leading: const Text(
               'Editar',
               style: TextStyle(
                 color: CupertinoColors.activeBlue,
