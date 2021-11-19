@@ -1,6 +1,9 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/components/contact_selection.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/selected_contact.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class CreateGroup extends StatefulWidget {
@@ -12,7 +15,7 @@ class CreateGroup extends StatefulWidget {
 
 class _CreateGroupState extends State<CreateGroup> {
   late TextEditingController _textController;
-  List<Contact> contactList = [];
+  List<SelectedContact> contactList = [];
 
   @override
   void initState() {
@@ -28,71 +31,80 @@ class _CreateGroupState extends State<CreateGroup> {
           onTap: () => Navigator.pop(context),
           child: const Icon(CupertinoIcons.back),
         ),
-        middle: const Text('Criar grupo'),
+        middle: const Text('Grupo'),
+        trailing: const Text('Finalizar'),
       ),
-      child: Container(
-        color: CupertinoColors.inactiveGray,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(SizeUtils.fromWidth(context, 0.05)),
-                child: SizedBox(
-                  height: SizeUtils.fromHeight(context, 0.05),
-                  child: CupertinoTextField(
-                    controller: _textController,
-                    placeholderStyle: const TextStyle(
-                      color: CupertinoColors.inactiveGray,
+      child: SafeArea(
+        child: Container(
+          height: SizeUtils.fromHeight(context, 1),
+          color: CupertinoColors.inactiveGray,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(SizeUtils.fromWidth(context, 0.05)),
+                  child: SizedBox(
+                    height: SizeUtils.fromHeight(context, 0.05),
+                    child: CupertinoTextField(
+                      controller: _textController,
+                      placeholderStyle: const TextStyle(
+                        color: CupertinoColors.inactiveGray,
+                      ),
+                      placeholder: 'Nome do grupo',
                     ),
-                    placeholder: 'Nome do grupo',
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(SizeUtils.fromWidth(context, 0.05)),
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: CupertinoButton(
-                    color: CupertinoColors.white,
-                    onPressed: () async {
-                      final PermissionStatus permissionStatus =
-                          await _getPermission();
-                      if (permissionStatus == PermissionStatus.granted) {
-                        debugPrint('granted');
-                        List<Contact> contacts =
-                            await ContactsService.getContacts();
-                        setState(() {
-                          contactList = contacts;
-                        });
-                      }
-                    },
-                    child: const Text(
-                      'Importar contatos',
-                      style: TextStyle(
-                        color: CupertinoColors.black,
+                Padding(
+                  padding: EdgeInsets.all(SizeUtils.fromWidth(context, 0.05)),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: CupertinoButton(
+                      color: CupertinoColors.white,
+                      onPressed: () async {
+                        final PermissionStatus permissionStatus =
+                            await _getPermission();
+                        if (permissionStatus == PermissionStatus.granted) {
+                          debugPrint('granted');
+                          List<Contact> contacts =
+                              await ContactsService.getContacts();
+                          final SelectedContact contact = await Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) =>
+                                  SelectContacts(contactList: contacts),
+                            ),
+                          );
+                          setState(() {
+                            contactList.add(contact);
+                          });
+                        }
+                      },
+                      child: const Text(
+                        'Importar contatos',
+                        style: TextStyle(
+                          color: CupertinoColors.black,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  itemCount: contactList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      child: Center(
-                          child:
-                              Text(contactList[index].displayName.toString())),
-                    );
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: contactList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ContactSelection(
+                        contact: contactList[index],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
