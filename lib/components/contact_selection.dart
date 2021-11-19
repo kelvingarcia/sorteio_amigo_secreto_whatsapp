@@ -13,7 +13,7 @@ class ContactSelection extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         var numero = contact.numero.replaceAll(' ', '').replaceAll('-', '');
-        var whatsappUrl = "https://wa.me/${numero}?text=Teste";
+        var whatsappUrl = "whatsapp://send?phone=${numero}&text=Teste";
 
         if (await canLaunch(whatsappUrl)) {
           await launch(whatsappUrl);
