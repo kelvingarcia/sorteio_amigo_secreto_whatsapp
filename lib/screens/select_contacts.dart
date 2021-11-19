@@ -39,6 +39,7 @@ class _SelectContactsState extends State<SelectContacts> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
+                    scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
                     itemCount: widget.contactList.length,

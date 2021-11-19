@@ -36,6 +36,7 @@ dependencies:
   sqflite:
   permission_handler:
   contacts_service:
+  url_launcher: 
 
 dev_dependencies:
   flutter_test:

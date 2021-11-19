@@ -43,5 +43,14 @@
 	<false/>
 	<key>NSContactsUsageDescription</key>
 	<string>contacts</string>
+	<key>LSApplicationCategoryType</key>
+ 	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+		<string>whatsapp</string>
+		<string>sms</string>
+	</array>
 </dict>
 </plist>
