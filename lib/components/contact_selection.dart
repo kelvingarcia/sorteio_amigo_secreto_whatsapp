@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sorteio_amigo_secreto_whatsapp/model/selected_contact.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class ContactSelection extends StatelessWidget {
-  final SelectedContact contact;
+  final Participante contact;
 
   const ContactSelection({Key? key, required this.contact}) : super(key: key);
 

@@ -54,7 +54,7 @@ class ParticipanteDao {
       var id = int.parse([_id].toString());
       var nome = row[_nome].toString();
       var numero = row[_numero].toString();
-      var participante = Participante(id, nome, numero);
+      var participante = Participante(id, nome, numero, '');
       participantes.add(participante);
     }
     return participantes;

@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class BoxGroup extends StatefulWidget {
-  const BoxGroup({Key? key}) : super(key: key);
+  final String? nomeGrupo;
+  final int? quantidadePessoas;
+
+  const BoxGroup({Key? key, String? this.nomeGrupo, int? this.quantidadePessoas}) : super(key: key);
 
   @override
   _BoxGroupState createState() => _BoxGroupState();
@@ -33,12 +36,12 @@ class _BoxGroupState extends State<BoxGroup> {
                   padding: EdgeInsets.only(
                     left: SizeUtils.fromWidth(context, 0.02),
                   ),
-                  child: const Text('Nome do grupo'),
+                  child: Text(widget.nomeGrupo ?? ''),
                 ),
               ],
             ),
             Row(
-              children: const [Text('15'), Icon(CupertinoIcons.right_chevron)],
+              children: [Text(widget.quantidadePessoas.toString()), Icon(CupertinoIcons.right_chevron)],
             ),
           ],
         ),

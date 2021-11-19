@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/create_group.dart';
 import 'components/group_box.dart';
+import 'model/grupo.dart';
 
 void main() => runApp(const MyApp());
 
@@ -26,6 +27,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Grupo> _grupos = [];
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -39,12 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             trailing: GestureDetector(
-                onTap: () => Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => CreateGroup(),
-                      ),
+                onTap: () async {
+                  final Grupo grupo = await Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => CreateGroup(),
                     ),
+                  );
+                  setState(() {
+                    _grupos.add(grupo);
+                  });
+                },
                 child: Icon(CupertinoIcons.add)),
             largeTitle: Text('Amigo Secreto'),
           ),
@@ -57,12 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return const Padding(
+                return Padding(
                   padding: EdgeInsets.all(24.0),
-                  child: BoxGroup(),
+                  child: BoxGroup(
+                    nomeGrupo: _grupos[index].nome,
+                    quantidadePessoas: _grupos[index].participantes.length,
+                  ),
                 );
               },
-              childCount: 20,
+              childCount: _grupos.length,
             ),
           )
         ],

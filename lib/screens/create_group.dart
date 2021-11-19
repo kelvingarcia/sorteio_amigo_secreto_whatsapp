@@ -2,7 +2,8 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/components/contact_selection.dart';
-import 'package:sorteio_amigo_secreto_whatsapp/model/selected_contact.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/grupo.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
@@ -15,7 +16,7 @@ class CreateGroup extends StatefulWidget {
 
 class _CreateGroupState extends State<CreateGroup> {
   late TextEditingController _textController;
-  List<SelectedContact> contactList = [];
+  List<Participante> contactList = [];
 
   @override
   void initState() {
@@ -32,7 +33,15 @@ class _CreateGroupState extends State<CreateGroup> {
           child: const Icon(CupertinoIcons.back),
         ),
         middle: const Text('Grupo'),
-        trailing: const Text('Finalizar'),
+        trailing: GestureDetector(
+          onTap: () {
+            Navigator.pop(context, Grupo(0, _textController.text, contactList));
+          },
+          child: const Text(
+            'Finalizar',
+            style: TextStyle(color: CupertinoColors.activeBlue),
+          ),
+        ),
       ),
       child: SafeArea(
         child: Container(
@@ -69,7 +78,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           debugPrint('granted');
                           List<Contact> contacts =
                               await ContactsService.getContacts();
-                          final SelectedContact contact = await Navigator.push(
+                          final Participante contact = await Navigator.push(
                             context,
                             CupertinoPageRoute(
                               builder: (context) =>

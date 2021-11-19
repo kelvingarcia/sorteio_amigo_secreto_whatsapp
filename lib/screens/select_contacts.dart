@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sorteio_amigo_secreto_whatsapp/model/selected_contact.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class SelectContacts extends StatefulWidget {
@@ -78,7 +78,7 @@ class _SelectContactsState extends State<SelectContacts> {
                                   child: const Text('Adicionar número'),
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    Navigator.pop(context, SelectedContact(0, widget.contactList[index].displayName!, _selectedValue, ''));
+                                    Navigator.pop(context, Participante(0, widget.contactList[index].displayName!, _selectedValue, ''));
                                   },
                                 ),
                               ],
