@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/main.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
@@ -15,7 +16,16 @@ class SelectContacts extends StatefulWidget {
 }
 
 class _SelectContactsState extends State<SelectContacts> {
+  late TextEditingController _textController;
   late String _selectedValue;
+  List<Contact> _contactSubList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+    _contactSubList = widget.contactList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +48,37 @@ class _SelectContactsState extends State<SelectContacts> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
+                  child: CupertinoSearchTextField(
+                    controller: _textController,
+                    itemColor: CupertinoColors.placeholderText,
+                    backgroundColor: CupertinoColors.white,
+                    onChanged: (text) {
+                      setState(() {
+                        if (text != '' && !text.startsWith(' ')) {
+                          _contactSubList = widget.contactList
+                              .where((element) => element.displayName!
+                                  .toLowerCase()
+                                  .startsWith(text.toLowerCase()))
+                              .toList();
+                        } else {
+                          _contactSubList = widget.contactList;
+                        }
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
-                    itemCount: widget.contactList.length,
+                    itemCount: _contactSubList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
-                          _selectedValue = widget.contactList[index].phones!.first.value!;
+                          _selectedValue =
+                              _contactSubList[index].phones!.first.value!;
                           showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) =>
@@ -59,17 +91,20 @@ class _SelectContactsState extends State<SelectContacts> {
                                   scrollController: FixedExtentScrollController(
                                       initialItem: 0),
                                   children: List<Widget>.generate(
-                                    widget.contactList[index].phones!.length,
+                                    _contactSubList[index].phones!.length,
                                     (i) {
                                       return Center(
-                                        child: Text(widget
-                                            .contactList[index].phones![i].value!),
+                                        child: Text(_contactSubList[index]
+                                            .phones![i]
+                                            .value!),
                                       );
                                     },
                                   ),
                                   onSelectedItemChanged: (value) {
                                     setState(() {
-                                      _selectedValue = widget.contactList[index].phones![value].value!;
+                                      _selectedValue = _contactSubList[index]
+                                          .phones![value]
+                                          .value!;
                                     });
                                   },
                                 ),
@@ -79,7 +114,13 @@ class _SelectContactsState extends State<SelectContacts> {
                                   child: const Text('Adicionar número'),
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    Navigator.pop(context, Participante(0, widget.contactList[index].displayName!, _selectedValue, ''));
+                                    Navigator.pop(
+                                        context,
+                                        Participante(
+                                            0,
+                                            _contactSubList[index].displayName!,
+                                            _selectedValue,
+                                            ''));
                                   },
                                 ),
                               ],
@@ -88,7 +129,7 @@ class _SelectContactsState extends State<SelectContacts> {
                         },
                         child: SizedBox(
                           height: SizeUtils.fromHeight(context, 0.05),
-                          child: Text(widget.contactList[index].displayName!),
+                          child: Text(_contactSubList[index].displayName!),
                         ),
                       );
                     },

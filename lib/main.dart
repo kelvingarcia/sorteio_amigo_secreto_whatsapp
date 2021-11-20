@@ -95,7 +95,7 @@ class _MyPrefilledSearchState extends State<MyPrefilledSearch> {
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController(text: 'Buscar');
+    _textController = TextEditingController();
   }
 
   @override
