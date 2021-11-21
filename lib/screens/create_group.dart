@@ -8,7 +8,9 @@ import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class CreateGroup extends StatefulWidget {
-  const CreateGroup({Key? key}) : super(key: key);
+  final Grupo grupo;
+  const CreateGroup({Key? key, this.grupo = const Grupo(0, '', [])})
+      : super(key: key);
 
   @override
   _CreateGroupState createState() => _CreateGroupState();
@@ -21,7 +23,8 @@ class _CreateGroupState extends State<CreateGroup> {
   @override
   void initState() {
     super.initState();
-    _textController = TextEditingController();
+    _textController = TextEditingController(text: widget.grupo.nome);
+    contactList = widget.grupo.participantes;
   }
 
   @override

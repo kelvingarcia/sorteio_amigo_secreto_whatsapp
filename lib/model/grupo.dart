@@ -5,5 +5,5 @@ class Grupo {
   final String nome;
   final List<Participante> participantes;
 
-  Grupo(this.id, this.nome, this.participantes);
+  const Grupo(this.id, this.nome, this.participantes);
 }

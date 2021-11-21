@@ -46,15 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   final Grupo grupo = await Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => CreateGroup(),
+                      builder: (context) => const CreateGroup(),
                     ),
                   );
                   setState(() {
                     _grupos.add(grupo);
                   });
                 },
-                child: Icon(CupertinoIcons.add)),
-            largeTitle: Text('Amigo Secreto'),
+                child: const Icon(CupertinoIcons.add)),
+            largeTitle: const Text('Amigo Secreto'),
           ),
           const SliverToBoxAdapter(
             child: Padding(
@@ -66,10 +66,22 @@ class _MyHomePageState extends State<MyHomePage> {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Padding(
-                  padding: EdgeInsets.all(24.0),
-                  child: BoxGroup(
-                    nomeGrupo: _grupos[index].nome,
-                    quantidadePessoas: _grupos[index].participantes.length,
+                  padding: const EdgeInsets.all(24.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => CreateGroup(
+                            grupo: _grupos[index],
+                          ),
+                        ),
+                      );
+                    },
+                    child: BoxGroup(
+                      nomeGrupo: _grupos[index].nome,
+                      quantidadePessoas: _grupos[index].participantes.length,
+                    ),
                   ),
                 );
               },
