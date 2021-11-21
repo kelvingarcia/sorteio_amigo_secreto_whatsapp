@@ -24,7 +24,7 @@ class _CreateGroupState extends State<CreateGroup> {
   void initState() {
     super.initState();
     _textController = TextEditingController(text: widget.grupo.nome);
-    contactList = widget.grupo.participantes;
+    contactList.addAll(widget.grupo.participantes);
   }
 
   @override
