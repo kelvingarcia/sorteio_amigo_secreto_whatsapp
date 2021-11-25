@@ -22,8 +22,8 @@ class ParticipanteDao {
   void editar(Participante participante) async {
     final Database db = await getDatabase();
     Map<String, dynamic> participanteMap = _toMap(participante);
-    await db
-        .update(_tableName, participanteMap, where: "id = ?", whereArgs: [participante.id]);
+    await db.update(_tableName, participanteMap,
+        where: "id = ?", whereArgs: [participante.id]);
   }
 
   Future<List<Participante>> findAll() async {
@@ -54,7 +54,7 @@ class ParticipanteDao {
       var id = int.parse([_id].toString());
       var nome = row[_nome].toString();
       var numero = row[_numero].toString();
-      var participante = Participante(id, nome, numero, '');
+      var participante = Participante(id, '', nome, numero, '');
       participantes.add(participante);
     }
     return participantes;

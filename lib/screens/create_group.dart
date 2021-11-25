@@ -6,6 +6,7 @@ import 'package:sorteio_amigo_secreto_whatsapp/model/grupo.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/utils/sort_utils.dart';
 
 class CreateGroup extends StatefulWidget {
   final Grupo grupo;
@@ -113,6 +114,26 @@ class _CreateGroupState extends State<CreateGroup> {
                         contact: contactList[index],
                       );
                     },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(SizeUtils.fromWidth(context, 0.05)),
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: CupertinoButton(
+                      color: CupertinoColors.activeBlue,
+                      onPressed: () async {
+                        var sortPeople = SortUtils.sortPeople(contactList);
+                        sortPeople.forEach((element) => debugPrint(
+                            element.nome + ": " + element.pessoaSorteada));
+                      },
+                      child: const Text(
+                        'Sortear grupo',
+                        style: TextStyle(
+                          color: CupertinoColors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],

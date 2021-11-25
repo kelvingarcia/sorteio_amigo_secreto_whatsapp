@@ -117,6 +117,7 @@ class _SelectContactsState extends State<SelectContacts> {
                                         context,
                                         Participante(
                                             0,
+                                            '',
                                             _contactSubList[index].displayName!,
                                             _selectedValue,
                                             ''));
