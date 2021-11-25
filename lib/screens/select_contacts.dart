@@ -114,13 +114,14 @@ class _SelectContactsState extends State<SelectContacts> {
                                   onPressed: () {
                                     Navigator.pop(context);
                                     Navigator.pop(
-                                        context,
-                                        Participante(
-                                            0,
-                                            '',
-                                            _contactSubList[index].displayName!,
-                                            _selectedValue,
-                                            ''));
+                                      context,
+                                      Participante(
+                                          0,
+                                          '',
+                                          _contactSubList[index].displayName!,
+                                          _selectedValue,
+                                          ''),
+                                    );
                                   },
                                 ),
                               ],

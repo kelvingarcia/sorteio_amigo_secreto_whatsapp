@@ -37,6 +37,7 @@ dependencies:
   permission_handler:
   contacts_service:
   url_launcher: 
+  http:
 
 dev_dependencies:
   flutter_test:

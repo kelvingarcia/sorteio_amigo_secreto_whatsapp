@@ -1,6 +1,6 @@
 class Participante {
   final int id;
-  final String mongoId;
+  String mongoId;
   final String nome;
   final String numero;
   String pessoaSorteada;

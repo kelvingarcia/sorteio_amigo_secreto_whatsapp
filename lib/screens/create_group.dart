@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -7,6 +9,7 @@ import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/sort_utils.dart';
+import 'package:http/http.dart' as http;
 
 class CreateGroup extends StatefulWidget {
   final Grupo grupo;
@@ -124,8 +127,37 @@ class _CreateGroupState extends State<CreateGroup> {
                       color: CupertinoColors.activeBlue,
                       onPressed: () async {
                         var sortPeople = SortUtils.sortPeople(contactList);
-                        sortPeople.forEach((element) => debugPrint(
-                            element.nome + ": " + element.pessoaSorteada));
+                        sortPeople.forEach((element) async {
+                          debugPrint(
+                              element.nome + ": " + element.pessoaSorteada);
+                          final response = await http.post(
+                            Uri.parse(
+                                'https://save-sort-save-sort.azuremicroservices.io/save-sort/save-person'),
+                            headers: <String, String>{
+                              'Content-Type': 'application/json',
+                            },
+                            body: jsonEncode(
+                              <String, String>{
+                                'name': element.nome +
+                                    "(" +
+                                    _textController.text +
+                                    ")",
+                                'sortedPersonName': element.pessoaSorteada,
+                              },
+                            ),
+                          );
+
+                          if (response.statusCode == 200) {
+                            contactList
+                                .where((participante) =>
+                                    participante.nome == element.nome)
+                                .first
+                                .mongoId = jsonDecode(response.body)['id'];
+                            debugPrint(element.nome +
+                                ": " +
+                                jsonDecode(response.body)['id']);
+                          }
+                        });
                       },
                       child: const Text(
                         'Sortear grupo',
