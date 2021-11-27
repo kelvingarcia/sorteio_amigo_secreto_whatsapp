@@ -71,7 +71,10 @@ class ContactSelection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Icon(CupertinoIcons.person),
+                  Visibility(
+                    visible: contact.enviado,
+                    child: const Icon(CupertinoIcons.check_mark),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                       left: SizeUtils.fromWidth(context, 0.02),

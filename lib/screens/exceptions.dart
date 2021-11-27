@@ -28,7 +28,7 @@ class _ExceptionsState extends State<Exceptions> {
     _textController = TextEditingController();
     _contactSubList = widget.contactList;
     _contactSubList.forEach((element) {
-      _boolList.add(false);
+      _boolList.add(element.exclusoes.isNotEmpty);
     });
   }
 

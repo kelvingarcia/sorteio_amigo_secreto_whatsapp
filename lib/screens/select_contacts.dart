@@ -122,6 +122,7 @@ class _SelectContactsState extends State<SelectContacts> {
                                         _selectedValue,
                                         '',
                                         [],
+                                        false
                                       ),
                                     );
                                   },
