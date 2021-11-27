@@ -8,4 +8,9 @@ class Participante {
 
   Participante(this.id, this.mongoId, this.nome, this.numero,
       this.pessoaSorteada, this.exclusoes);
+
+  @override
+  String toString() {
+    return '{mongoId: $mongoId, nome: $nome, numero: $numero, pessoaSorteada: $pessoaSorteada, exclusoes: $exclusoes }';
+  }
 }

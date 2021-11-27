@@ -126,38 +126,43 @@ class _CreateGroupState extends State<CreateGroup> {
                     width: double.maxFinite,
                     child: CupertinoButton(
                       color: CupertinoColors.activeBlue,
-                      onPressed: () async {
+                      onPressed: () {
+                        //debugPrint(contactList.toString());
+                        setState(() {});
+                        debugPrint(contactList.toString());
+                        contactList
+                            .forEach((element) => element.pessoaSorteada = '');
                         var sortPeople = SortUtils.sortPeople(contactList);
                         sortPeople.forEach((element) async {
                           debugPrint(
                               element.nome + ": " + element.pessoaSorteada);
-                          final response = await http.post(
-                            Uri.parse(
-                                'https://save-sort-save-sort.azuremicroservices.io/save-sort/save-person'),
-                            headers: <String, String>{
-                              'Content-Type': 'application/json',
-                            },
-                            body: jsonEncode(
-                              <String, String>{
-                                'name': element.nome +
-                                    "(" +
-                                    _textController.text +
-                                    ")",
-                                'sortedPersonName': element.pessoaSorteada,
-                              },
-                            ),
-                          );
+                          // final response = await http.post(
+                          //   Uri.parse(
+                          //       'https://save-sort-save-sort.azuremicroservices.io/save-sort/save-person'),
+                          //   headers: <String, String>{
+                          //     'Content-Type': 'application/json',
+                          //   },
+                          //   body: jsonEncode(
+                          //     <String, String>{
+                          //       'name': element.nome +
+                          //           "(" +
+                          //           _textController.text +
+                          //           ")",
+                          //       'sortedPersonName': element.pessoaSorteada,
+                          //     },
+                          //   ),
+                          // );
 
-                          if (response.statusCode == 200) {
-                            contactList
-                                .where((participante) =>
-                                    participante.nome == element.nome)
-                                .first
-                                .mongoId = jsonDecode(response.body)['id'];
-                            debugPrint(element.nome +
-                                ": " +
-                                jsonDecode(response.body)['id']);
-                          }
+                          // if (response.statusCode == 200) {
+                          //   contactList
+                          //       .where((participante) =>
+                          //           participante.nome == element.nome)
+                          //       .first
+                          //       .mongoId = jsonDecode(response.body)['id'];
+                          //   debugPrint(element.nome +
+                          //       ": " +
+                          //       jsonDecode(response.body)['id']);
+                          // }
                         });
                       },
                       child: const Text(
