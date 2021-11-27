@@ -23,6 +23,7 @@ class CreateGroup extends StatefulWidget {
 class _CreateGroupState extends State<CreateGroup> {
   late TextEditingController _textController;
   List<Participante> contactList = [];
+  List<Contact> contacts = [];
 
   @override
   void initState() {
@@ -83,8 +84,7 @@ class _CreateGroupState extends State<CreateGroup> {
                             await _getPermission();
                         if (permissionStatus == PermissionStatus.granted) {
                           debugPrint('granted');
-                          List<Contact> contacts =
-                              await ContactsService.getContacts();
+                          contacts = await ContactsService.getContacts();
                           final Participante contact = await Navigator.push(
                             context,
                             CupertinoPageRoute(
@@ -115,6 +115,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     itemBuilder: (BuildContext context, int index) {
                       return ContactSelection(
                         contact: contactList[index],
+                        contactList: contacts,
                       );
                     },
                   ),

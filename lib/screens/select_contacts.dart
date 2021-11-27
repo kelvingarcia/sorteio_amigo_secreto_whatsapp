@@ -7,7 +7,7 @@ import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 class SelectContacts extends StatefulWidget {
   final List<Contact> contactList;
 
-  const SelectContacts({Key? key, List<Contact> this.contactList = const []})
+  const SelectContacts({Key? key, this.contactList = const []})
       : super(key: key);
 
   @override
@@ -83,7 +83,7 @@ class _SelectContactsState extends State<SelectContacts> {
                             builder: (BuildContext context) =>
                                 CupertinoActionSheet(
                               title: const Text('Selecione o número'),
-                              message: Container(
+                              message: SizedBox(
                                 height: SizeUtils.fromHeight(context, 0.12),
                                 child: CupertinoPicker(
                                   itemExtent: 30,
@@ -116,11 +116,13 @@ class _SelectContactsState extends State<SelectContacts> {
                                     Navigator.pop(
                                       context,
                                       Participante(
-                                          0,
-                                          '',
-                                          _contactSubList[index].displayName!,
-                                          _selectedValue,
-                                          ''),
+                                        0,
+                                        '',
+                                        _contactSubList[index].displayName!,
+                                        _selectedValue,
+                                        '',
+                                        [],
+                                      ),
                                     );
                                   },
                                 ),

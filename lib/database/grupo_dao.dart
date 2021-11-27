@@ -44,7 +44,7 @@ class GrupoDao {
   Map<String, dynamic> _toMap(Grupo grupo) {
     final Map<String, dynamic> grupoMap = Map();
     grupoMap[_nome] = grupo.nome;
-    grupoMap[_participantes] = grupo.participantes;
+    grupoMap[_participantes] = grupo.participantes.toString();
     return grupoMap;
   }
 

@@ -4,7 +4,8 @@ class Participante {
   final String nome;
   final String numero;
   String pessoaSorteada;
+  List<String> exclusoes;
 
-  Participante(
-      this.id, this.mongoId, this.nome, this.numero, this.pessoaSorteada);
+  Participante(this.id, this.mongoId, this.nome, this.numero,
+      this.pessoaSorteada, this.exclusoes);
 }
