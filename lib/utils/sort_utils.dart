@@ -2,37 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 
 class SortUtils {
-  static List<Participante> sortPeople(List<Participante> participantes) {
+  static void sortPeople(List<Participante> participantes) {
     List<Participante> shuffledList = List.from(participantes);
-    int i = 0;
-    int tentativas = 1;
-    while (i < 10) {
-      shuffledList.shuffle();
-      bool passedExclusion = _testExclusions(shuffledList);
-      if (passedExclusion) {
-        i++;
-      } else {
-        tentativas = i + 1;
-        i = 10;
-      }
+    shuffledList.shuffle();
+    var hasExclusions = shuffledList.where((element) => element.exclusoes.isNotEmpty).toList();
+    var hasNotExclusions = shuffledList.where((element) => element.exclusoes.isEmpty).toList();
+    if(hasExclusions.length > hasNotExclusions.length){
+      throw 'Quantidade de pessoas com exclusões não pode ser maior do que pessoa sem exclusoes';
     }
-    debugPrint('tentativas: ' + tentativas.toString());
-    return shuffledList;
+    if(hasExclusions.isNotEmpty){
+      hasExclusions.forEach((participante) => _sortAndRemove(participante, shuffledList));
+      hasNotExclusions.last.pessoaSorteada = shuffledList.removeAt(shuffledList.indexOf(hasExclusions.first)).nome;
+    } else {
+      hasNotExclusions.last.pessoaSorteada = shuffledList.removeAt(shuffledList.indexOf(hasNotExclusions.first)).nome;
+    }    
+    hasNotExclusions.forEach((participante) => _sortAndRemove(participante, shuffledList));
   }
 
-  static bool _testExclusions(List<Participante> shuffledList) {
-    for (int i = 0; i < shuffledList.length - 1; i++) {
-      if (shuffledList[i].exclusoes.contains(shuffledList[i + 1].nome)) {
-        return true;
-      }
-      shuffledList[i].pessoaSorteada = shuffledList[i + 1].nome;
+  static void _sortAndRemove(Participante participante, List<Participante> shuffledList) {
+    if(participante.pessoaSorteada == ''){
+      var withoutExclusion = shuffledList.where((element) => !participante.exclusoes.contains(element.nome) && element.nome != participante.nome).toList();
+      participante.pessoaSorteada = shuffledList.removeAt(shuffledList.indexOf(withoutExclusion.first)).nome; 
     }
-    if (shuffledList[shuffledList.length - 1]
-        .exclusoes
-        .contains(shuffledList[0].nome)) {
-      return true;
-    }
-    shuffledList[shuffledList.length - 1].pessoaSorteada = shuffledList[0].nome;
-    return false;
   }
 }

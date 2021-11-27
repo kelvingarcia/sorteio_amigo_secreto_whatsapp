@@ -132,8 +132,35 @@ class _CreateGroupState extends State<CreateGroup> {
                         debugPrint(contactList.toString());
                         contactList
                             .forEach((element) => element.pessoaSorteada = '');
-                        var sortPeople = SortUtils.sortPeople(contactList);
-                        sortPeople.forEach((element) async {
+                        try {
+                          SortUtils.sortPeople(contactList);
+                        } catch (e) {
+                          String errorMessage;
+                          if (e.toString() ==
+                              'Quantidade de pessoas com exclusões não pode ser maior do que pessoa sem exclusoes') {
+                            errorMessage = e.toString();
+                          } else {
+                            errorMessage = 'Houve um erro tente novamente.';
+                          }
+                          showCupertinoDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoAlertDialog(
+                              title: const Text('Alerta'),
+                              content: Text(errorMessage),
+                              actions: <CupertinoDialogAction>[
+                                CupertinoDialogAction(
+                                  child: const Text('OK'),
+                                  isDestructiveAction: true,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        contactList.forEach((element) async {
                           debugPrint(
                               element.nome + ": " + element.pessoaSorteada);
                           // final response = await http.post(
