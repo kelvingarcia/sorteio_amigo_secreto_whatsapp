@@ -4,7 +4,7 @@ import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 
 class Exceptions extends StatefulWidget {
-  final List<Contact> contactList;
+  final List<Participante> contactList;
   final Participante? participante;
 
   const Exceptions({
@@ -19,7 +19,7 @@ class Exceptions extends StatefulWidget {
 
 class _ExceptionsState extends State<Exceptions> {
   late TextEditingController _textController;
-  List<Contact> _contactSubList = [];
+  List<Participante> _contactSubList = [];
   final List<bool> _boolList = [];
 
   @override
@@ -61,7 +61,7 @@ class _ExceptionsState extends State<Exceptions> {
                       setState(() {
                         if (text != '' && !text.startsWith(' ')) {
                           _contactSubList = widget.contactList
-                              .where((element) => element.displayName!
+                              .where((element) => element.nome
                                   .toLowerCase()
                                   .startsWith(text.toLowerCase()))
                               .toList();
@@ -85,19 +85,19 @@ class _ExceptionsState extends State<Exceptions> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              _contactSubList[index].displayName!,
+                              _contactSubList[index].nome,
                             ),
                             CupertinoSwitch(
                               value: _boolList[index],
                               onChanged: (bool value) {
                                 if (value) {
                                   widget.participante!.exclusoes
-                                      .add(_contactSubList[index].displayName!);
+                                      .add(_contactSubList[index].nome);
                                 } else {
                                   widget.participante!.exclusoes.removeWhere(
                                       (element) =>
                                           element ==
-                                          _contactSubList[index].displayName!);
+                                          _contactSubList[index].nome);
                                 }
                                 debugPrint(
                                     widget.participante!.exclusoes.toString());

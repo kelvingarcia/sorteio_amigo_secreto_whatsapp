@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ContactSelection extends StatelessWidget {
   final Participante contact;
-  final List<Contact> contactList;
+  final List<Participante> contactList;
 
   const ContactSelection(
       {Key? key, required this.contact, required this.contactList})
