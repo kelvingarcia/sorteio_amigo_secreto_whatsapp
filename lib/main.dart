@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/create_group.dart';
 import 'components/group_box.dart';
+import 'database/grupo_dao.dart';
 import 'model/grupo.dart';
 
 void main() => runApp(const MyApp());
@@ -27,7 +28,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Grupo> _grupos = [];
+  GrupoDao _dao = GrupoDao();
+  List<Grupo> _grupos = [];
+
+  @override
+  void initState() {
+    //_dao.deleteAll();
+    _dao.findAll().then((value) {
+      setState(() {
+        _grupos = value;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +56,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             trailing: GestureDetector(
                 onTap: () async {
-                  final Grupo grupo = await Navigator.push(
+                  await Navigator.push(
                     context,
                     CupertinoPageRoute(
                       builder: (context) => const CreateGroup(),
                     ),
                   );
-                  setState(() {
-                    _grupos.add(grupo);
+                  _dao.findAll().then((value) {
+                    setState(() {
+                      _grupos = value;
+                    });
                   });
                 },
                 child: const Icon(CupertinoIcons.add)),

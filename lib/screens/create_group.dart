@@ -4,6 +4,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/components/contact_selection.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/database/grupo_dao.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/grupo.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/select_contacts.dart';
@@ -21,6 +22,7 @@ class CreateGroup extends StatefulWidget {
 }
 
 class _CreateGroupState extends State<CreateGroup> {
+  GrupoDao _dao = GrupoDao();
   late TextEditingController _textController;
   List<Participante> contactList = [];
 
@@ -42,7 +44,8 @@ class _CreateGroupState extends State<CreateGroup> {
         middle: const Text('Grupo'),
         trailing: GestureDetector(
           onTap: () {
-            Navigator.pop(context, Grupo(0, _textController.text, contactList));
+            _dao.save(Grupo(0, _textController.text, contactList));
+            Navigator.pop(context);
           },
           child: const Text(
             'Finalizar',

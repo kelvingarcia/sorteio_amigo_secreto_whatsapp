@@ -116,7 +116,6 @@ class _SelectContactsState extends State<SelectContacts> {
                                     Navigator.pop(
                                       context,
                                       Participante(
-                                        0,
                                         '',
                                         _contactSubList[index].displayName!,
                                         _selectedValue,

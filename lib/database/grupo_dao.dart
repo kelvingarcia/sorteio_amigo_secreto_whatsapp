@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:sorteio_amigo_secreto_whatsapp/model/grupo.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'app_database.dart';
@@ -44,16 +47,18 @@ class GrupoDao {
   Map<String, dynamic> _toMap(Grupo grupo) {
     final Map<String, dynamic> grupoMap = Map();
     grupoMap[_nome] = grupo.nome;
-    grupoMap[_participantes] = grupo.participantes.toString();
+    var encodedList = grupo.participantes.map((e) => jsonEncode(e.toJson())).toList();
+    grupoMap[_participantes] = jsonEncode(encodedList);
     return grupoMap;
   }
 
   List<Grupo> _toList(List<Map<String, dynamic>> result) {
-    final List<Grupo> grupos = []..length = result.length;
+    final List<Grupo> grupos = [];
     for (Map<String, dynamic> row in result) {
-      var id = int.parse([_id].toString());
-      var nome = row[_nome].toString();
-      var participantes = row[_participantes];
+      var id = row[_id];
+      var nome = row[_nome];
+      List<dynamic> listDynamic = jsonDecode(row[_participantes]);
+      var participantes = listDynamic.map((e) => Participante.fromJson(jsonDecode(e))).toList();
       var grupo = Grupo(id, nome, participantes);
       grupos.add(grupo);
     }
