@@ -18,10 +18,10 @@ class CreateGroup extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CreateGroupState createState() => _CreateGroupState();
+  CreateGroupState createState() => CreateGroupState();
 }
 
-class _CreateGroupState extends State<CreateGroup> {
+class CreateGroupState extends State<CreateGroup> {
   GrupoDao _dao = GrupoDao();
   late TextEditingController _textController;
   List<Participante> contactList = [];
@@ -117,6 +117,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     itemCount: contactList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ContactSelection(
+                        createGroupState: this,
                         contact: contactList[index],
                         contactList: contactList,
                       );

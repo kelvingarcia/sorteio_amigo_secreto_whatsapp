@@ -1,16 +1,18 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/model/participante.dart';
+import 'package:sorteio_amigo_secreto_whatsapp/screens/create_group.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/screens/exceptions.dart';
 import 'package:sorteio_amigo_secreto_whatsapp/utils/size_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactSelection extends StatelessWidget {
+  final CreateGroupState createGroupState;
   final Participante contact;
   final List<Participante> contactList;
 
   const ContactSelection(
-      {Key? key, required this.contact, required this.contactList})
+      {Key? key, required this.contact, required this.contactList, required this.createGroupState})
       : super(key: key);
 
   @override
@@ -50,6 +52,9 @@ class ContactSelection extends StatelessWidget {
         CupertinoContextMenuAction(
           child: const Text('Deletar'),
           onPressed: () {
+            createGroupState.setState(() {              
+              contactList.remove(contact);
+            });
             Navigator.pop(context);
           },
         ),
