@@ -33,7 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    //_dao.deleteAll();
     _dao.findAll().then((value) {
       setState(() {
         _grupos = value;
@@ -48,10 +47,20 @@ class _MyHomePageState extends State<MyHomePage> {
       child: CustomScrollView(
         slivers: [
           CupertinoSliverNavigationBar(
-            leading: const Text(
-              'Editar',
-              style: TextStyle(
-                color: CupertinoColors.activeBlue,
+            leading: GestureDetector(
+              onTap: () {
+                _dao.deleteAll();
+                _dao.findAll().then((value) {
+                  setState(() {
+                    _grupos = value;
+                  });
+                });
+              },
+              child: const Text(
+                'Editar',
+                style: TextStyle(
+                  color: CupertinoColors.activeBlue,
+                ),
               ),
             ),
             trailing: GestureDetector(
