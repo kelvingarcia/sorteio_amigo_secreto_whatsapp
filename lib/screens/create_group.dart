@@ -44,8 +44,9 @@ class CreateGroupState extends State<CreateGroup> {
         middle: const Text('Grupo'),
         trailing: GestureDetector(
           onTap: () {
-            if(widget.grupo.id != 0) {              
-              _dao.editar(Grupo(widget.grupo.id, _textController.text, contactList));
+            if (widget.grupo.id != 0) {
+              _dao.editar(
+                  Grupo(widget.grupo.id, _textController.text, contactList));
             } else {
               _dao.save(Grupo(0, _textController.text, contactList));
             }
@@ -142,6 +143,37 @@ class CreateGroupState extends State<CreateGroup> {
                             .forEach((element) => element.pessoaSorteada = '');
                         try {
                           SortUtils.sortPeople(contactList);
+                          contactList.forEach((element) async {
+                            debugPrint(
+                                element.nome + ": " + element.pessoaSorteada);
+                            final response = await http.post(
+                              Uri.parse(
+                                  'https://save-sort-save-sort.azuremicroservices.io/save-sort/save-person'),
+                              headers: <String, String>{
+                                'Content-Type': 'application/json',
+                              },
+                              body: jsonEncode(
+                                <String, String>{
+                                  'name': element.nome +
+                                      "(" +
+                                      _textController.text +
+                                      ")",
+                                  'sortedPersonName': element.pessoaSorteada,
+                                },
+                              ),
+                            );
+
+                            if (response.statusCode == 200) {
+                              contactList
+                                  .where((participante) =>
+                                      participante.nome == element.nome)
+                                  .first
+                                  .mongoId = jsonDecode(response.body)['id'];
+                              debugPrint(element.nome +
+                                  ": " +
+                                  jsonDecode(response.body)['id']);
+                            }
+                          });
                         } catch (e) {
                           String errorMessage;
                           if (e.toString() ==
@@ -168,37 +200,6 @@ class CreateGroupState extends State<CreateGroup> {
                             ),
                           );
                         }
-                        contactList.forEach((element) async {
-                          debugPrint(
-                              element.nome + ": " + element.pessoaSorteada);
-                          // final response = await http.post(
-                          //   Uri.parse(
-                          //       'https://save-sort-save-sort.azuremicroservices.io/save-sort/save-person'),
-                          //   headers: <String, String>{
-                          //     'Content-Type': 'application/json',
-                          //   },
-                          //   body: jsonEncode(
-                          //     <String, String>{
-                          //       'name': element.nome +
-                          //           "(" +
-                          //           _textController.text +
-                          //           ")",
-                          //       'sortedPersonName': element.pessoaSorteada,
-                          //     },
-                          //   ),
-                          // );
-
-                          // if (response.statusCode == 200) {
-                          //   contactList
-                          //       .where((participante) =>
-                          //           participante.nome == element.nome)
-                          //       .first
-                          //       .mongoId = jsonDecode(response.body)['id'];
-                          //   debugPrint(element.nome +
-                          //       ": " +
-                          //       jsonDecode(response.body)['id']);
-                          // }
-                        });
                       },
                       child: const Text(
                         'Sortear grupo',

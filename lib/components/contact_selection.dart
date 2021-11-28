@@ -30,6 +30,9 @@ class ContactSelection extends StatelessWidget {
 
             if (await canLaunch(whatsappUrl)) {
               await launch(whatsappUrl);
+              createGroupState.setState(() {
+                contact.enviado = true;
+              });
             } else {
               throw 'Could not launch $whatsappUrl';
             }
