@@ -44,7 +44,11 @@ class CreateGroupState extends State<CreateGroup> {
         middle: const Text('Grupo'),
         trailing: GestureDetector(
           onTap: () {
-            _dao.save(Grupo(0, _textController.text, contactList));
+            if(widget.grupo.id != 0) {              
+              _dao.editar(Grupo(widget.grupo.id, _textController.text, contactList));
+            } else {
+              _dao.save(Grupo(0, _textController.text, contactList));
+            }
             Navigator.pop(context);
           },
           child: const Text(

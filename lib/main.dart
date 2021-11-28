@@ -91,7 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             grupo: _grupos[index],
                           ),
                         ),
-                      );
+                      ).then((value) {
+                        _dao.findAll().then((value) {
+                          setState(() {
+                            _grupos = value;
+                          });
+                        });
+                      });
                     },
                     child: BoxGroup(
                       nomeGrupo: _grupos[index].nome,
