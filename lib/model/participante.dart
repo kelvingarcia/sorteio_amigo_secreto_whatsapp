@@ -7,9 +7,10 @@ class Participante {
   String pessoaSorteada;
   List<String> exclusoes;
   bool enviado;
+  int shuffledIndex;
 
   Participante(this.mongoId, this.nome, this.numero,
-      this.pessoaSorteada, this.exclusoes, this.enviado);
+      this.pessoaSorteada, this.exclusoes, this.enviado, this.shuffledIndex);
 
   Participante.fromJson(Map<String, dynamic> json)
     : mongoId = json['mongoId'],
@@ -17,7 +18,8 @@ class Participante {
       numero = json['numero'],
       pessoaSorteada = json['pessoaSorteada'],
       exclusoes = DynamicUtils.createListFromDynamic(json['exclusoes']),
-      enviado = json['enviado'];
+      enviado = json['enviado'],
+      shuffledIndex = json['shuffledIndex'];
 
   Map<String, dynamic> toJson() => {
       'mongoId': mongoId,
@@ -25,7 +27,8 @@ class Participante {
       'numero': numero,
       'pessoaSorteada': pessoaSorteada,
       'exclusoes': exclusoes,
-      'enviado': enviado
+      'enviado': enviado,
+      'shuffledIndex': shuffledIndex
     };
 
   @override

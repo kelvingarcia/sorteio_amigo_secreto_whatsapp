@@ -80,6 +80,10 @@ class ContactSelection extends StatelessWidget {
                     visible: contact.enviado,
                     child: const Icon(CupertinoIcons.check_mark),
                   ),
+                  Visibility(
+                    visible: contact.shuffledIndex != 0,
+                    child: Text(contact.shuffledIndex.toString()),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                       left: SizeUtils.fromWidth(context, 0.02),
